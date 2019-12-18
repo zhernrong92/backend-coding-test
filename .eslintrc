@@ -1,0 +1,28 @@
+{
+    "env": {
+        "node": true,
+        "mocha": true
+    },
+    "extends": "airbnb-base",
+    "plugins": [
+        "promise"
+    ],
+    "rules": {
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "devDependencies": true
+            }
+        ],
+        "import/newline-after-import": 0,
+        "prefer-arrow-callback": 0,
+        "linebreak-style": 0,
+        "camelcase": 0,
+        "no-param-reassign": 0,
+        "no-plusplus": 0,
+        "consistent-return": 0,
+        "new-cap": 0,
+        "no-underscore-dangle": 0,
+        "no-use-before-define": 0
+    }
+}
