@@ -156,6 +156,19 @@ module.exports = (db) => {
     *   tags:
     *   -   Rides
     *   description: Get all ride records
+    *   parameters:
+    *   - in: query
+    *     name: page
+    *     description: The page number to be retrieved
+    *     required: true
+    *     schema:
+    *       type: integer
+    *   - in: query
+    *     name: limit
+    *     description: The number of records to be retrieved
+    *     required: true
+    *     schema:
+    *       type: integer
     *   responses:
     *     '200':
     *       description: An array of ride records
@@ -200,7 +213,8 @@ module.exports = (db) => {
         });
       }
 
-      res.send(rows);
+
+      res.send(paginatedResults(rows, req.query.page, req.query.limit));
     });
   });
 
@@ -213,7 +227,7 @@ module.exports = (db) => {
     *   description: To query a specific ride
     *   parameters:
     *   -   in: path
-    *       name: rideid
+    *       name: id
     *       description: ID of the ride
     *       required: true
     *       type: integer
@@ -265,3 +279,30 @@ module.exports = (db) => {
 
   return app;
 };
+
+
+function paginatedResults(model, page, limit) {
+  const results = {};
+  page = Number(page);
+  limit = Number(limit);
+
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+
+  if (endIndex < model.length) {
+    results.next = {
+      page: page + 1,
+      limit,
+    };
+  }
+
+  if (startIndex > 0) {
+    results.previous = {
+      page: page - 1,
+      limit,
+    };
+  }
+
+  results.results = model.slice(startIndex, endIndex);
+  return results;
+}
