@@ -33,11 +33,15 @@ const swaggerOptions = {
 };
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
+
+const logger = require('./logger');
+global.gLogger = logger;
+
 db.serialize(() => {
     buildSchemas(db);
 
     const app = require('./src/app')(db);
     app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-    app.listen(port, () => console.log(`App started and listening on port ${port}`));
+    app.listen(port, () => gLogger.info(`App started and listening on port ${port}`));
 });

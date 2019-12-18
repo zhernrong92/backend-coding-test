@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "mocha tests",
+    "test": "nyc --reporter=html --reporter=text mocha tests",
     "start": "node index.js"
   },
   "keywords": [
@@ -18,12 +18,25 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.16.4",
-    "sqlite3": "^4.0.6"
+    "sqlite3": "^4.0.6",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
+    "eslint": "^6.7.2",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-promise": "^4.2.1",
+    "husky": "^3.1.0",
     "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
     "supertest": "^4.0.2",
     "swagger-jsdoc": "^3.4.0",
     "swagger-ui-express": "^4.0.7"
+  },
+  "lint": "eslint'./src/*.js' --fix",
+  "husky": {
+    "hooks": {
+      "pre-push": "npm test"
+    }
   }
 }
