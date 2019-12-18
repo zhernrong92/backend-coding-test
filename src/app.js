@@ -128,7 +128,7 @@ module.exports = (db) => {
       req.body.driver_vehicle,
     ];
 
-    db.run('INSERT INTO Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle) VALUES (?, ?, ?, ?, ?, ?, ?)', values, (err) => {
+    db.run('INSERT INTO Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle) VALUES (?, ?, ?, ?, ?, ?, ?)', values, function (err) {
       if (err) {
         return res.send({
           error_code: 'SERVER_ERROR',
@@ -136,8 +136,8 @@ module.exports = (db) => {
         });
       }
 
-      db.all('SELECT * FROM Rides WHERE rideID = ?', this.lastID, (err2, rows) => {
-        if (err) {
+      db.all('SELECT * FROM Rides WHERE rideID = ?', this.lastID, function (err2, rows) {
+        if (err2) {
           return res.send({
             error_code: 'SERVER_ERROR',
             message: 'Unknown error',
@@ -185,7 +185,7 @@ module.exports = (db) => {
     *
     */
   app.get('/rides', (req, res) => {
-    db.all('SELECT * FROM Rides', (err, rows) => {
+    db.all('SELECT * FROM Rides', function (err, rows) {
       if (err) {
         return res.send({
           error_code: 'SERVER_ERROR',
@@ -244,7 +244,7 @@ module.exports = (db) => {
     *
     */
   app.get('/rides/:id', (req, res) => {
-    db.all(`SELECT * FROM Rides WHERE rideID='${req.params.id}'`, (err, rows) => {
+    db.all(`SELECT * FROM Rides WHERE rideID='${req.params.id}'`, function (err, rows) {
       if (err) {
         return res.send({
           error_code: 'SERVER_ERROR',
