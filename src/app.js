@@ -7,8 +7,74 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
 module.exports = (db) => {
+    /**
+    * @swagger
+    * /health:
+    *  get:
+    *   tags:
+    *   -   Diagnostic
+    *   description: Check if server is running
+    *   responses:
+    *     '200':
+    *       description: Expect "Healthy" text
+    */
     app.get('/health', (req, res) => res.send('Healthy'));
 
+
+    /**
+    * @swagger
+    * /rides:
+    *  post:
+    *   tags:
+    *   -   Rides
+    *   description: Create a ride record and return it
+    *   parameters: 
+    *   -   in: body
+    *       name: body
+    *       description: the ride to create
+    *       schema:
+    *           type: object
+    *           properties:
+    *               start_lat:
+    *                   type: integer
+    *               start_long:
+    *                   type: integer
+    *               end_lat:
+    *                   type: integer
+    *               end_long:
+    *                   type: integer
+    *               rider_name:
+    *                   type: string
+    *               driver_name:
+    *                   type: string
+    *               driver_vehicle:
+    *                   type: string
+    *   responses:
+    *     '200':
+    *       description: Created ride object
+    *       schema:
+    *           type: object
+    *           properties:
+    *               rideID:
+    *                   type: integer
+    *               startLat:
+    *                   type: integer
+    *               startLong:
+    *                   type: integer
+    *               endLat:
+    *                   type: integer
+    *               endLong:
+    *                   type: integer
+    *               riderName:
+    *                   type: string
+    *               driverName:
+    *                   type: string
+    *               driverVehicle:
+    *                   type: string
+    *               created:
+    *                   type: string
+    * 
+    */
     app.post('/rides', jsonParser, (req, res) => {
         const startLatitude = Number(req.body.start_lat);
         const startLongitude = Number(req.body.start_long);
@@ -76,6 +142,41 @@ module.exports = (db) => {
         });
     });
 
+    /**
+    * @swagger
+    * /rides:
+    *  get:
+    *   tags:
+    *   -   Rides
+    *   description: Get all ride records
+    *   responses:
+    *     '200':
+    *       description: An array of ride records
+    *       schema:
+    *           type: array
+    *           items:
+    *               type: object    
+    *               properties:
+    *                   rideID:
+    *                       type: integer
+    *                   startLat:
+    *                       type: integer
+    *                   startLong:
+    *                       type: integer
+    *                   endLat:
+    *                       type: integer
+    *                   endLong:
+    *                       type: integer
+    *                   riderName:
+    *                       type: string
+    *                   driverName:
+    *                       type: string
+    *                   driverVehicle:
+    *                       type: string
+    *                   created:
+    *                       type: string
+    *
+    */
     app.get('/rides', (req, res) => {
         db.all('SELECT * FROM Rides', function (err, rows) {
             if (err) {
@@ -96,6 +197,45 @@ module.exports = (db) => {
         });
     });
 
+    /**
+    * @swagger
+    * /rides/{id}:
+    *  get:
+    *   tags:
+    *   -   Rides
+    *   description: To query a specific ride
+    *   parameters: 
+    *   -   in: path
+    *       name: rideid
+    *       description: ID of the ride
+    *       required: true
+    *       type: integer
+    *   responses:
+    *     '200':
+    *       description: The Ride object which matches the rideid
+    *       schema:
+    *           type: object
+    *           properties:
+    *               rideID:
+    *                   type: integer
+    *               startLat:
+    *                   type: integer
+    *               startLong:
+    *                   type: integer
+    *               endLat:
+    *                   type: integer
+    *               endLong:
+    *                   type: integer
+    *               riderName:
+    *                   type: string
+    *               driverName:
+    *                   type: string
+    *               driverVehicle:
+    *                   type: string
+    *               created:
+    *                   type: string
+    * 
+    */
     app.get('/rides/:id', (req, res) => {
         db.all(`SELECT * FROM Rides WHERE rideID='${req.params.id}'`, function (err, rows) {
             if (err) {
