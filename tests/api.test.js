@@ -180,9 +180,29 @@ describe('API tests', () => {
   });
 
   describe('GET /rides', () => {
+    it('should return no rides, page <= 0', (done) => {
+      request(app)
+        .get('/rides?page=0&limit=1')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200, done);
+    });
+  });
+
+  describe('GET /rides', () => {
+    it('should return all rides, invalid page', (done) => {
+      request(app)
+        .get('/rides?page=1&limit=1')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200, done);
+    });
+  });
+
+  describe('GET /rides', () => {
     it('should return all rides', (done) => {
       request(app)
-        .get('/rides')
+        .get('/rides?page=2&limit=1')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, done);
