@@ -22,6 +22,7 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "artillery": "^1.6.0-29",
     "eslint": "^6.7.2",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.19.1",
