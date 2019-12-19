@@ -1,3 +1,33 @@
+# Checklist and Remark
+
+### Documentation [DONE]
+Implemented `swagger` for API documentation.
+Go to `http://localhost:8010/api-docs/` to view it.
+
+### Implement Tooling [DONE]
+1. `eslint`
+Implemented. Did linter fixes. Using `Airbnb` rules as standard, also included some of my own rules
+2. `nyc`
+Implemented. But eventually only covered up to 76%
+3. `pre-push` 
+Implented using `husky`.
+4. `winston` I
+Implemented. defined `gLogger` so it can be used anywhere
+
+### Implement Pagination [DONE]
+Need to provide page and limit as query parameter to riders.
+By default page is 1 and limit is 10.
+
+### Refactoring [DONE]
+### Security [DONE]
+Converted from callback to async/await.
+Replaced concat string url with parameterised value.
+
+### Load Testing [half-done]
+Implemented `artillery`
+Unable to run using npm load:test.
+Run using `artillery run loadtest.yml`.
+
 # Xendit Coding Exercise
 
 The goal of these exercises are to assess your proficiency in software engineering that is related to the daily work that we do at Xendit. Please follow the instructions below to complete the assessment.
